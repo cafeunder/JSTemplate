@@ -28,6 +28,27 @@ function drawText(str,x,y,rgba,font){
 }
 
 function drawRect(x,y,width,height,rgba){
+	ctx.strokeStyle = rgba;
+	ctx.strokeRect(x,y,width,height);
+}
+
+function fillRect(x,y,width,height,rgba){
 	ctx.fillStyle = rgba;
 	ctx.fillRect(x,y,width,height);
+}
+
+function drawCircle(x,y,r,l,rgba){
+	ctx.lineWidth = l; 
+	ctx.beginPath();
+	ctx.strokeStyle = rgba;
+	ctx.arc(x, y, r, 0, Math.PI*2, false)
+	ctx.stroke();
+}
+
+function fillCircle(x,y,r,l,rgba){
+	ctx.lineWidth = l; 
+	ctx.beginPath();
+	ctx.fillStyle = rgba;
+	ctx.arc(x, y, r, 0, Math.PI*2, false)
+	ctx.fill();
 }

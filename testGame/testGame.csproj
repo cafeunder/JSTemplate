@@ -57,6 +57,9 @@
     <Content Include="index.html" />
     <Content Include="map.js" />
     <Content Include="mouse.js" />
+    <Content Include="Point.js" />
+    <Content Include="queue.js" />
+    <Content Include="stack.js" />
     <Content Include="testGame.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
