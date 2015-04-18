@@ -5,7 +5,6 @@ function drawGraph(image,x,y,alpha){
 }
 
 function drawRotaGraph(image,x,y,angle,alpha){
-	var rad = angle * Math.PI / 180;
 	var mx = x+image.width/2;
 	var my = y+image.height/2;
 
@@ -13,7 +12,7 @@ function drawRotaGraph(image,x,y,angle,alpha){
 	
     ctx.save();
     ctx.translate(mx, my);
-    ctx.rotate(rad);
+    ctx.rotate(angle);
     ctx.translate(-mx, -my);    
     ctx.drawImage(image, x, y);
     ctx.restore();

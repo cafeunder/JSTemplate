@@ -2,6 +2,16 @@
 	this.__a = new Array();
 }
 
+Stack.prototype.clone = function(){
+	result = new Stack();
+	result.arrayToStack(this.__a);
+	return result;
+}
+
+Stack.prototype.arrayToStack = function(a){
+	this.__a = a;
+}
+
 Stack.prototype.push = function(o) {
 	this.__a.push(o);
 }

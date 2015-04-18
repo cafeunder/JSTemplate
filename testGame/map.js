@@ -10,7 +10,6 @@ TIP_SIZE = 32;
 function Map() {
 	this.DEBUG_MAP = new Array();
 
-
 	for(var y = 0; y < YNUM; y++){
 		this.DEBUG_MAP[y] = new Array();
 		for(var x = 0; x < XNUM; x++){
@@ -20,7 +19,10 @@ function Map() {
 
 	this.mouseOnMap = false;
 	this.mp = new Point();
-	this.sPath = new Array();
+	this.sPath = null;
+	this.sDirGuide = null;
+
+	this.calcPath();
 }
 
 function DirPoint(p,d){
@@ -50,7 +52,7 @@ function DirPoint(p,d){
 }
 
 Map.prototype.calcPath = function() {
-	var iPoint = new Point(0,7);	//出発地点
+	var iPoint = new Point(-1,7);	//出発地点
 	var ePoint = new Point(13,7);	//目的地点
 
 	//====初期化処理====//
@@ -142,6 +144,22 @@ Map.prototype.calcPath = function() {
 			if(np.x == ePoint.x && np.y == ePoint.y){
 				//次の地点が目的地なら、現在のスタックが最短経路
 				this.sPath = stack.__a;
+
+				this.sDirGuide = new Array();
+				for(var i = 0; i < this.sPath.length-1; i++){
+					var xd = this.sPath[i].x - this.sPath[i+1].x;
+					var yd = this.sPath[i].y - this.sPath[i+1].y;
+
+					if(xd == -1){
+						this.sDirGuide.push(RIGHT);
+					} else if(xd == 1) {
+						this.sDirGuide.push(LEFT);
+					} else if(yd == -1){
+						this.sDirGuide.push(DOWN);
+					} else {
+						this.sDirGuide.push(UP);
+					}
+				}
 				return;
 			}
 
