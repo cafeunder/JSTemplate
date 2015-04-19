@@ -32,4 +32,5 @@ TowerMgr.prototype.draw = function(){
 
 TowerMgr.prototype.addTower = function(t){
 	this.towerAry.push(t);
+	updateColMap(t.p, 1);
 }
