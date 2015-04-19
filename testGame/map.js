@@ -51,6 +51,11 @@ function DirPoint(p,d){
 	return null;
 }
 
+Map.prototype.setEneMgr = function(eneMgr){
+	this.eneMgr = eneMgr;
+	this.eneMgr.setShortestPathGuide(this.sDirGuide);
+}
+
 Map.prototype.calcPath = function() {
 	var iPoint = new Point(-1,7);	//出発地点
 	var ePoint = new Point(13,7);	//目的地点
@@ -195,6 +200,7 @@ Map.prototype.update = function() {
 	}
 
 	this.calcPath();
+	this.eneMgr.setShortestPathGuide(this.sDirGuide);
 }
 
 Map.prototype.draw = function(){

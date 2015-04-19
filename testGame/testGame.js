@@ -5,7 +5,8 @@ var ctx,canvas;
 var map = new Map();
 var mouse = new Mouse();
 var fps = new Fps();
-var enemy = new Enemy(new Point(-1,7),map);
+//var enemy = new Enemy(new Point(-1,7),map);
+var eneMgr = new EnemyMgr(-1, 7, map);
 
 onload = function(){
 	canvas = document.getElementById('id_canvas');
@@ -32,11 +33,11 @@ function timerFunc(){
 	mouse.update();
 	fps.update();
 	map.update();
-	enemy.update();
+	eneMgr.update();
 
 	drawRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,"rgb(0,0,0)");
 	map.draw();
-	enemy.draw();
+	eneMgr.draw();
 	TEST_ANGLE+=20;
 	
 //	drawText("count:"+mouse.leftCount + " x:"+mouse.x + " y:"+mouse.y,400,20,"rgba(255,255,255,1.0)","20px 'MS Gothic'");

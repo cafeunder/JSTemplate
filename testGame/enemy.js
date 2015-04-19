@@ -12,8 +12,12 @@ function Enemy(p, map){
 	this.move = 0;
 }
 
+Enemy.prototype.setShortestPathGuide = function(sDirGuide){
+	this.sDirGuide = sDirGuide;
+}
+
 Enemy.prototype.update = function(){
-	var DEBUG_VELOCITY = 3000;
+	var DEBUG_VELOCITY = 987;
 	switch(this.dir){
 	case UP:
 		this.y -= DEBUG_VELOCITY;
@@ -70,4 +74,61 @@ Enemy.prototype.draw = function(){
 		break;
 	}
 	drawRotaGraph(ImageArray["MARU"].image, dx, dy, angle, 1.0);
+}
+
+
+
+var PUSH_INTERVAL = 60;
+
+function EnemyMgr(x,y,map){
+	this.attack = false;
+	this.order = new Stack();
+	for(var i = 0; i < 10; i++){
+		this.order.push(new Enemy(new Point(x,y),map));
+	}
+
+	this.eneAry = new Array();
+	this.pushCount = PUSH_INTERVAL;
+	this.map = map;
+
+	this.map.setEneMgr(this);
+}
+
+EnemyMgr.prototype.setShortestPathGuide = function(sDirGuide){
+	this.sDirGuide = sDirGuide;
+}
+
+EnemyMgr.prototype.update = function(){
+	if(mouse.x >= 550 && mouse.x <= 610 && mouse.y >= 100 && mouse.y < 132){
+		if(mouse.leftCount == 1){
+			this.attack = true;
+		}
+	}
+
+	if(this.attack){
+		if(this.pushCount == PUSH_INTERVAL){
+			this.pushCount = 0;
+
+			var e = this.order.pop();
+			if(e == null){
+				this.attack = false;
+			} else {
+				e.setShortestPathGuide(this.sDirGuide);
+				this.eneAry.push(e);
+			}
+		}
+		this.pushCount++;
+	}
+
+	for(var i in this.eneAry){
+		this.eneAry[i].update();
+	}
+}
+
+EnemyMgr.prototype.draw = function(){
+	for(var i in this.eneAry){
+		this.eneAry[i].draw();
+	}
+
+	fillRect(550, 100, 60, TIP_SIZE, "rgb(50,50,50)");
 }
