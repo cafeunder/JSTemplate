@@ -62,6 +62,7 @@
     <Content Include="queue.js" />
     <Content Include="stack.js" />
     <Content Include="testGame.js" />
+    <Content Include="tower.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

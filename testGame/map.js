@@ -10,12 +10,35 @@ TIP_SIZE = 32;
 function Map() {
 	this.DEBUG_MAP = new Array();
 
+	this.DEBUG_MAP = 
+	[
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+		[0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],
+
+		[0,0,0,0,0, 0,0,0,0,0, 0,0,2,2,2],
+		[0,0,0,0,0, 0,0,0,0,0, 0,2,0,0,0],
+		[0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],
+		[0,0,0,0,0, 0,0,0,0,0, 0,2,0,0,0],
+		[0,0,0,0,0, 0,0,0,0,0, 0,0,2,2,2],
+
+		[0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0],
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+		[2,2,2,2,2, 2,2,2,2,2, 2,2,2,2,2],
+	];
+/*
 	for(var y = 0; y < YNUM; y++){
 		this.DEBUG_MAP[y] = new Array();
 		for(var x = 0; x < XNUM; x++){
 			this.DEBUG_MAP[y][x] = 0;
 		}
 	}
+*/
+
 
 	this.mouseOnMap = false;
 	this.mp = new Point();
@@ -193,10 +216,6 @@ Map.prototype.update = function() {
 
 		this.mp.x = parseInt(this.mp.x);
 		this.mp.y = parseInt(this.mp.y);
-
-		if(mouse.leftCount == 1){	
-			this.DEBUG_MAP[this.mp.y][this.mp.x] = (this.DEBUG_MAP[this.mp.y][this.mp.x]+1)%2;
-		}
 	}
 
 	this.calcPath();
@@ -210,10 +229,15 @@ Map.prototype.draw = function(){
 			var img;
 			if(this.DEBUG_MAP[y][x] == 0){
 				img = ImageArray["MASU"].image;
-			} else {
+				drawGraph(img, x*TIP_SIZE+TIP_SIZE/2, y*TIP_SIZE+TIP_SIZE/2);
+			} else if(this.DEBUG_MAP[y][x] == 1) {
 				img = ImageArray["TEMP"].image;
+				drawGraph(img, x*TIP_SIZE+TIP_SIZE/2, y*TIP_SIZE+TIP_SIZE/2);
+			} else if(this.DEBUG_MAP[y][x] == 2) {
+				img = ImageArray["TEMP2"].image;
+				drawGraph(img, x*TIP_SIZE+TIP_SIZE/2, y*TIP_SIZE+TIP_SIZE/2);
 			}
-			drawGraph(img, x*TIP_SIZE+TIP_SIZE/2, y*TIP_SIZE+TIP_SIZE/2);
+
 			if(mouse.leftCount == 0){
 				drawText(""+this.costAry[y][x], x*TIP_SIZE+TIP_SIZE/2, (y+1)*TIP_SIZE+TIP_SIZE/2,"rgba(255,255,255,1.0)","20px 'MS Gothic'");
 			} else {

@@ -4,6 +4,8 @@
 }
 
 var ImageArray = {
+	"TEMP3" : new ImageData("./img/temp3.png",null),
+	"TEMP2" : new ImageData("./img/temp2.png",null),
 	"TEMP" : new ImageData("./img/temp.png",null),
 	"MASU" : new ImageData("./img/masu.png",null),
 	"FIRE" : new ImageData("./img/fire.png",null),
