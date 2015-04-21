@@ -58,7 +58,7 @@
     <Content Include="index.html" />
     <Content Include="map.js" />
     <Content Include="mouse.js" />
-    <Content Include="Point.js" />
+    <Content Include="point.js" />
     <Content Include="queue.js" />
     <Content Include="stack.js" />
     <Content Include="testGame.js" />
