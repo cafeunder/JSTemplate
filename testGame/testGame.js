@@ -25,6 +25,8 @@ onload = function(){
 	canvas.addEventListener('mousedown',mouseDown,true);	
 	canvas.addEventListener('mouseup',mouseUp,true);	
 
+	ctx.msImageSmoothingEnabled = false;
+
 	sPath = calcPath(new Point(-1,7), new Point(13,7), colMap);
 	sDirGuide = pathToGuide(sPath);
 };
@@ -39,22 +41,24 @@ function timerFunc(){
 	mouse.update();
 	fps.update();
 
+	map.update();
+	twrMgr.update();
+	eneMgr.update();
 	if(mouse.leftCount == 1){
 		var mapMX = mouse.x-TIP_SIZE/2;
 		var mapMY = mouse.y-TIP_SIZE/2;
 		if(mapMX < 0 || mapMX >= TIP_SIZE*XNUM || mapMY < 0 || mapMY >= TIP_SIZE*YNUM){
 		} else {
-			var px = parseInt((mouse.x - TIP_SIZE/2)/TIP_SIZE);
-			var py = parseInt((mouse.y - TIP_SIZE/2)/TIP_SIZE);
+			var sel = towerPanel.getSelectTower();
+			if(sel != -1){
+				var px = parseInt((mouse.x - TIP_SIZE/2)/TIP_SIZE);
+				var py = parseInt((mouse.y - TIP_SIZE/2)/TIP_SIZE);
 
-			twrMgr.addTower(new Tower(new Point(px,py), eneMgr));
+				twrMgr.addTower(new Tower(new Point(px,py), eneMgr));
+			}
 		}
 	}
-
 	towerPanel.update();
-	map.update();
-	twrMgr.update();
-	eneMgr.update();
 
 	drawRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,"rgb(0,0,0)");
 	towerPanel.draw();
