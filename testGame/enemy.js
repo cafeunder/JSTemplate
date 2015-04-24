@@ -99,7 +99,7 @@ EnemyMgr.prototype.setShortestPathGuide = function(sDirGuide){
 }
 
 EnemyMgr.prototype.update = function(){
-	if(mouse.x >= 550 && mouse.x <= 610 && mouse.y >= 100 && mouse.y < 132){
+	if(mouse.x >= 550 && mouse.x <= 610 && mouse.y >= 300 && mouse.y < 332){
 		if(mouse.leftCount == 1){
 			this.attack = true;
 		}
@@ -130,5 +130,5 @@ EnemyMgr.prototype.draw = function(){
 		this.eneAry[i].draw();
 	}
 
-	fillRect(550, 100, 60, TIP_SIZE, "rgb(50,50,50)");
+	fillRect(550, 300, 60, TIP_SIZE, "rgb(50,50,50)");
 }
