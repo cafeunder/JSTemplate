@@ -1,9 +1,11 @@
-﻿function Stack() {
+﻿"use strict";
+
+function Stack() {
 	this.__a = new Array();
 }
 
 Stack.prototype.clone = function(){
-	result = new Stack();
+	var result = new Stack();
 	result.arrayToStack(this.__a);
 	return result;
 }

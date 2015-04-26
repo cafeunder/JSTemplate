@@ -1,3 +1,5 @@
+"use strict";
+
 var SAMPLE_FRACT = 50;
 
 function Fps(){

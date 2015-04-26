@@ -1,0 +1,26 @@
+---GamePlay.js---
+
+MAP_XNUM = 16
+MAP_YNUM = 16
+
+map : Map
+eneMgr : EnemyMgr
+twrMgr : TowerMgr
+eftMgr : EffectMgr
+mychar : MyChar
+
+twrPanel : TowerPanel
+psyPanel : PsyPanel
+wavePanel : WavePanel
+infoPanel : InfoPanel
+sysPanel : SystemPanel
+
+colMap : Array
+shortPath : Array
+shortGuide : Array
+
+function GamePlay(){
+	//マップファイルの読み込み
+
+
+}

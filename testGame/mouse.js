@@ -1,3 +1,5 @@
+"use strict";
+
 var tempX = 0,tempY = 0;
 var leftPress = false;
 

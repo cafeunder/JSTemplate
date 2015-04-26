@@ -1,4 +1,6 @@
-﻿function Queue() {
+﻿"use strict";
+
+function Queue() {
 	this.__a = new Array();
 }
 

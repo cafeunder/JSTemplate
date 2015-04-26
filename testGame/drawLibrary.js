@@ -1,3 +1,5 @@
+"use strict";
+
 function drawGraph(image,x,y,alpha){
 	ctx.globalAlpha = alpha;
 	ctx.drawImage(image,x,y);
@@ -29,11 +31,13 @@ function drawText(str,x,y,rgba,font){
 function drawRect(x,y,width,height,rgba){
 	ctx.strokeStyle = rgba;
 	ctx.strokeRect(x,y,width,height);
+	ctx.stroke();
 }
 
 function fillRect(x,y,width,height,rgba){
 	ctx.fillStyle = rgba;
 	ctx.fillRect(x,y,width,height);
+	ctx.fill();
 }
 
 function drawCircle(x,y,r,l,rgba){

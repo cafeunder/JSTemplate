@@ -1,10 +1,12 @@
-﻿function ImageData(path,image){
+﻿"use strict";
+
+function ImageData(path,image){
 	this.path = path;
 	this.image = image;
 }
 
 var ImageArray = {
-	"TEMP5" : new ImageData("./img/temp5.png",null),
+	"mychar" : new ImageData("./img/temp5.png",null),
 	"TEMP4" : new ImageData("./img/temp4.png",null),
 	"TEMP3" : new ImageData("./img/temp3.png",null),
 	"TEMP2" : new ImageData("./img/temp2.png",null),
