@@ -1,7 +1,9 @@
 ﻿"use strict";
 
-function MyChar(x,y){
-	this.point = new Point(x,y);
+function MyChar(p){
+	this.point = p;
+	//this.resource
+	//this.life
 }
 
 MyChar.prototype.update = function(){

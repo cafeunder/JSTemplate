@@ -3,8 +3,6 @@
 //var infoPanel = new InfoPanel( );
 
 function GamePlay(){
-	//this.twrMgr = new TowerMgr( );
-	//this.eftMgr = new EffectMgr( );
 	//this.twrPanel = new TowerPanel( );
 	//this.psyPanel = new PsyPanel( );
 	//this.wavePanel = new WavePanel( );
@@ -18,10 +16,6 @@ function GamePlay(){
 		//エネミーオーダー
 			//エネミーオーダーの形式 :
 			//進行waveカウント 侵攻位置番号 侵攻エネミー名 エネミーの数
-	var DEBUG_mx = 13;
-	var DEBUG_my = 7;
-	var DEBUG_ex = 0;
-	var DEBUG_ey = 7;
 	var DEBUG_MAP = 
 	[
 		[1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1],
@@ -45,11 +39,21 @@ function GamePlay(){
 
 	this.colMap = copyArray(DEBUG_MAP);
 	
+	var DEBUG_mx = 13;
+	var DEBUG_my = 7;
+
+	//===DEBUG===
+	var DEBUG_ex = -1;
+	var DEBUG_ey = 7;
+	var spawnAry = new Array();
+	spawnAry[0] = new Point(DEBUG_ex, DEBUG_ey);
+	//===DEBUG===
+
 	//this.map = new Map(マップ情報);
 	this.map = new Map(DEBUG_MAP);
 	//this.mychar = new MyChar(マイキャラx, y);
-	this.mychar = new MyChar(DEBUG_mx, DEBUG_my);
-	//this.eneMgr = new EnemyMgr(エネミー情報, this.mychar);
+	this.mychar = new MyChar(new Point(DEBUG_mx, DEBUG_my));
+	this.eneMgr = new EnemyMgr(spawnAry, null, this.mychar);
 	//this.twrMgr = new TowerMgr(this.eneMgr);
 
 	//this.twrPanel = new TowerPanel();
@@ -61,10 +65,17 @@ function GamePlay(){
 	this.shortGuide = pathToGuide(this.shortPath);
 }
 
+var TTTTTT = 0;
 GamePlay.prototype.update = function(){
+	
+	if(TTTTTT == 0){
+		TTTTTT = 1;
+		this.eneMgr.next(this.shortPath, this.shortGuide);
+	}
+
 	this.map.update();
 	this.mychar.update();
-	//this.eneMgr.update();
+	this.eneMgr.update();
 	//this.twrMgr.update();
 
 	//this.twrPanel.update();
@@ -73,6 +84,8 @@ GamePlay.prototype.update = function(){
 	if(twr != null){
 		if(this.map.judgePutTower(map.mPoint)){
 			this.twrMgr.putTower(createTower(map.mPoint.clone(), twr));
+			//最短経路更新
+			//準備フェイズ→侵攻フェイズ は、侵攻フェイズに移った時点で最短経路をeneMgrに渡す
 		}
 	}
 	*/
@@ -81,7 +94,7 @@ GamePlay.prototype.update = function(){
 GamePlay.prototype.draw = function(){
 	this.map.draw();
 	this.mychar.draw();
-	//this.eneMgr.draw();
+	this.eneMgr.draw();
 	//this.twrMgr.draw();
 
 	//========================DEBUG========================//
@@ -103,7 +116,7 @@ GamePlay.prototype.judgePutTower = function(point){
 	return (this.map.judgePutTower(point) 
 		 && this.mychar.judgePutTower(point)
 		 //&& this.twrMgr.judgePutTower(point)
-		 && judgeOpen(new Point(0,7), this.mychar.point, this.colMap, point));
+		 && judgeOpen(this.eneMgr.spawnPoint[0], this.mychar.point, this.colMap, point));	//DEBUG
 }
 
 

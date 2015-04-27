@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="drawLibrary.js" />
+    <Content Include="enemy.js" />
+    <Content Include="enemyMgr.js" />
     <Content Include="fps.js" />
     <Content Include="gamePlay.js" />
     <Content Include="imageMethod.js" />

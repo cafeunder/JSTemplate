@@ -37,7 +37,6 @@ function timerFunc(){
 	drawText("fps:"+fps.FPS.toFixed(1),2,585,"rgba(255,255,255,1.0)","20px 'MS Gothic'");
 }
 
-
 function copyArray(arr){
 	var newarr = [];
 	for(var i = 0; i < arr.length; i++){

@@ -1,7 +1,7 @@
 ﻿"use strict";
 
-function TowerMgr(){
-
+function TowerMgr(eneMgr){
+	//this.
 }
 
 TowerMgr.prototype.update = function(){
