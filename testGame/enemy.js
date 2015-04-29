@@ -1,8 +1,32 @@
 ﻿"use strict";
 
+//=======================================================//
+//	グローバル変数宣言
+//=======================================================//
 var MOVE_SCALE = 1000;
 
-function Enemy(shortPath, shortGuide, p){
+
+
+//=======================================================//
+//　クラス名 : Enemy
+//　概要 :
+//		エネミーを表します。
+//　メンバ :
+//		x 整数					: 現在位置x
+//		y 整数					: 現在位置y
+//		p Point					: マップ位置
+//		shortPath Array<int>	: 最短経路
+//		shortGuide Array<int>	: 最短経路
+//		guideIndex 整数			: 最短経路配列を参照する位置
+//		move 整数				: 移動量
+//		data EnemyData			: データ
+//	コンストラクタ :
+//		shortPath Array<int>	: GamePlayから受け取った
+//		shortGuide Array<int>	: 最短経路配列
+//		p Point					: スポーン位置
+//		data EnemyData			: データ
+//=======================================================//
+function Enemy(shortPath, shortGuide, p, data){
 	this.x = p.x*TIP_SIZE*MOVE_SCALE;
 	this.y = p.y*TIP_SIZE*MOVE_SCALE;
 	this.p = p;
@@ -10,8 +34,13 @@ function Enemy(shortPath, shortGuide, p){
 	this.shortGuide = copyArray(shortGuide);
 	this.guideIndex = 0;
 	this.move = 0;
+	this.data = data;
 }
 
+//=======================================================//
+//　関数名 : update
+//　概要 : 更新メソッド
+//=======================================================//
 Enemy.prototype.update = function(){
 	var DEBUG_VELOCITY = 987;
 
@@ -50,6 +79,10 @@ Enemy.prototype.update = function(){
 	}
 }
 
+//=======================================================//
+//　関数名 : draw
+//　概要 : 描画メソッド
+//=======================================================//
 Enemy.prototype.draw = function(){
 	var dx = this.x/MOVE_SCALE;
 	var dy = this.y/MOVE_SCALE;
@@ -72,6 +105,13 @@ Enemy.prototype.draw = function(){
 	drawRotaGraph(ImageArray["MARU"].image, MapToScrX(dx), MapToScrY(dy), angle, 1.0);
 }
 
+//=======================================================//
+//　関数名 : updateShortPath
+//　概要 : 最短経路の更新メソッド
+//	引数 :
+//		shortPath Array<int>	: 最短経路
+//		shortGuide Array<int>	: 最短経路
+//=======================================================//
 Enemy.prototype.updateShortPath = function(shortPath, shortGuide){
 /*
 	if(最短経路が後戻りしないなら){

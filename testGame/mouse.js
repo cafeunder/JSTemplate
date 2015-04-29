@@ -17,6 +17,13 @@ Mouse.prototype.update = function(){
 	this.y = tempY;
 }
 
+Mouse.prototype.onRect = function(x, y, width, height){
+	if(this.x >= x && this.x < x+width && this.y >= y && this.y < y+height){
+		return true;
+	}
+	return false;
+}
+
 function mouseMove(event){
 	var rect = event.target.getBoundingClientRect();
 	tempX = event.clientX - rect.left;

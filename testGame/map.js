@@ -6,6 +6,7 @@ var MAP_X = 10;
 var MAP_Y = 68;
 var TIP_SIZE = 32;
 
+
 function Map(mapData){
 	this.map = copyArray(mapData);
 	this.onMouse = false;

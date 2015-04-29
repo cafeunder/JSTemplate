@@ -1,7 +1,33 @@
 ﻿"use strict";
 
-//var infoPanel = new InfoPanel( );
+//=======================================================//
+//	グローバル変数宣言
+//=======================================================//
+//var infoPanel = new InfoPanel();	//情報パネル
+//var eftMgr = new EffectMgr();		//エフェクトマネージャ
 
+
+
+//=======================================================//
+//　クラス名 : GamePlay
+//　概要 :
+//		ゲームプレイを実装するクラスです。
+//		ゲーム画面に存在する要素の親となり、
+//		各モジュール間のやりとりを仲介します。
+//		また、エネミーが侵攻する最短経路を計算し、保持します。
+//　メンバ :
+//　map Map					: マップ
+//　mychar MyChar			: マイキャラ
+//　eneMgr eneMgr			: エネミーマネージャ
+//　twrMgr twrMgr			: タワーマネージャ
+//　twrPanel TowerPanel		: タワーパネル
+//　psyPanel PsyPanel		: サイキックパネル
+//　wavePanel WavePanel		: 侵攻パネル
+//　sysPanel SystemPanel	: システムパネル
+//	colMap Array<整数>		: エネミーが侵入できるかどうかの配列（0:侵入できる 1:侵入できない）
+//　shortPath Array<Point>	: 最短経路（位置）
+//　shortGuide Array<整数>	: 最短経路（移動方向）
+//=======================================================//
 function GamePlay(){
 	//this.twrPanel = new TowerPanel( );
 	//this.psyPanel = new PsyPanel( );
@@ -39,10 +65,10 @@ function GamePlay(){
 
 	this.colMap = copyArray(DEBUG_MAP);
 	
+	//===DEBUG===
 	var DEBUG_mx = 13;
 	var DEBUG_my = 7;
 
-	//===DEBUG===
 	var DEBUG_ex = -1;
 	var DEBUG_ey = 7;
 	var spawnAry = new Array();
@@ -53,10 +79,10 @@ function GamePlay(){
 	this.map = new Map(DEBUG_MAP);
 	//this.mychar = new MyChar(マイキャラx, y);
 	this.mychar = new MyChar(new Point(DEBUG_mx, DEBUG_my));
+	//this.eneMgr = new MyChar(侵攻位置配列, オーダー, this.mychar);
 	this.eneMgr = new EnemyMgr(spawnAry, null, this.mychar);
 	//this.twrMgr = new TowerMgr(this.eneMgr);
-
-	//this.twrPanel = new TowerPanel();
+	this.twrMgr = new TowerMgr();
 
 	this.shortPath = calcShortPath(new Point(DEBUG_ex, DEBUG_ey), new Point(DEBUG_mx, DEBUG_my), this.colMap);
 	if(this.shortPath == null){
@@ -65,20 +91,39 @@ function GamePlay(){
 	this.shortGuide = pathToGuide(this.shortPath);
 }
 
+//=======================================================//
+//　関数名 : update
+//　概要 : 
+//		各モジュールの更新メソッドを呼び出します。
+//		また、タワーの配置・侵攻／準備フェイズの切り替えも行います。
+//=======================================================//
 var TTTTTT = 0;
 GamePlay.prototype.update = function(){
 	
+	//===DEBUG===//
 	if(TTTTTT == 0){
 		TTTTTT = 1;
-		this.eneMgr.next(this.shortPath, this.shortGuide);
+		this.putTower("TEST1", new Point(9,5));
 	}
 
+	if(mouse.leftCount == 1){
+		if(mouse.onRect(550,400,100,50)){
+			this.eneMgr.next(this.shortPath, this.shortGuide);
+		}
+	}
+	//===DEBUG===//
+
+
+	//モジュールの更新メソッド
 	this.map.update();
 	this.mychar.update();
 	this.eneMgr.update();
-	//this.twrMgr.update();
+	this.twrMgr.update();
 
 	//this.twrPanel.update();
+
+	//↓過去ドキュメント↓
+	//TowerPanel実装後に削除
 	/*
 	var twr = this.twrPanel.getPutTower();
 	if(twr != null){
@@ -91,11 +136,17 @@ GamePlay.prototype.update = function(){
 	*/
 }
 
+//=======================================================//
+//　関数名 : draw
+//　概要 : 
+//		各モジュールの描画メソッドを呼び出します。
+//		また、ゲームの背景の描画も行います。
+//=======================================================//
 GamePlay.prototype.draw = function(){
 	this.map.draw();
 	this.mychar.draw();
 	this.eneMgr.draw();
-	//this.twrMgr.draw();
+	this.twrMgr.draw();
 
 	//========================DEBUG========================//
 	for(var e in this.shortPath){
@@ -109,15 +160,60 @@ GamePlay.prototype.draw = function(){
 		}
 	}
 	drawText("mx:"+ this.map.mp.x + " my:" + this.map.mp.y, 100, 585,"rgba(255,255,255,1.0)","20px 'MS Gothic'");
+
+	drawRect(550,400,100,50,"rgba(255,255,255,1.0)");
+	if(mouse.onRect(550,400,100,50)){
+		fillRect(550,400,100,50,"rgba(0,255,255,0.5)");
+	}
 	//========================DEBUG========================//
 }
 
+//=======================================================//
+//　関数名 : judgePutTower
+//　概要 : タワーが置けるかどうかを判定します。
+//	引数 :
+//		point Point : 判定する位置
+//=======================================================//
 GamePlay.prototype.judgePutTower = function(point){
-	return (this.map.judgePutTower(point) 
+	return (this.map.judgePutTower(point)
 		 && this.mychar.judgePutTower(point)
-		 //&& this.twrMgr.judgePutTower(point)
+		 && this.twrMgr.judgePutTower(point)
 		 && judgeOpen(this.eneMgr.spawnPoint[0], this.mychar.point, this.colMap, point));	//DEBUG
 }
+
+//=======================================================//
+//　関数名 : updateCollisionMap
+//　概要 : 
+//		colMapの値を更新します。
+//		それと同時に最短経路を更新します。
+//　引数 :
+//		point Point	: 更新する位置
+//		value 整数	: 更新する値
+//=======================================================//
+GamePlay.prototype.updateCollisionMap = function(point, value){
+	this.colMap[point.y][point.x] = value;
+	this.shortPath = calcShortPath(this.eneMgr.spawnPoint[0], this.mychar.point, this.colMap);
+	if(this.shortPath == null){
+		alert("最短経路が存在しない");
+	}
+	this.shortGuide = pathToGuide(this.shortPath);
+}
+
+//=======================================================//
+//　関数名 : putTower
+//　概要 : 
+//		タワーを配置します。
+//		タワーマネージャにインスタンスを渡し、
+//		colMapの値を更新します。
+//　引数 :
+//		name 文字列	: 配置するタワーの名前
+//		point Point	: 配置する位置
+//=======================================================//
+GamePlay.prototype.putTower = function(name, point){
+	this.twrMgr.putTower(createTower(name, point, this.eneMgr));
+	this.updateCollisionMap(point,1);
+}
+
 
 
 function calcShortPath(start, end, colAry){

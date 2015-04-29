@@ -65,6 +65,7 @@
     <Content Include="queue.js" />
     <Content Include="stack.js" />
     <Content Include="program.js" />
+    <Content Include="tower.js" />
     <Content Include="towerMgr.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
