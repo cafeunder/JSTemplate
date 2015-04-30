@@ -16,17 +16,17 @@
 //		各モジュール間のやりとりを仲介します。
 //		また、エネミーが侵攻する最短経路を計算し、保持します。
 //　メンバ :
-//　map Map					: マップ
-//　mychar MyChar			: マイキャラ
-//　eneMgr eneMgr			: エネミーマネージャ
-//　twrMgr twrMgr			: タワーマネージャ
-//　twrPanel TowerPanel		: タワーパネル
-//　psyPanel PsyPanel		: サイキックパネル
-//　wavePanel WavePanel		: 侵攻パネル
-//　sysPanel SystemPanel	: システムパネル
-//	colMap Array<整数>		: エネミーが侵入できるかどうかの配列（0:侵入できる 1:侵入できない）
-//　shortPath Array<Point>	: 最短経路（位置）
-//　shortGuide Array<整数>	: 最短経路（移動方向）
+//		map Map					: マップ
+//		mychar MyChar			: マイキャラ
+//		eneMgr eneMgr			: エネミーマネージャ
+//		twrMgr twrMgr			: タワーマネージャ
+//		twrPanel TowerPanel		: タワーパネル
+//		psyPanel PsyPanel		: サイキックパネル
+//		wavePanel WavePanel		: 侵攻パネル
+//		sysPanel SystemPanel	: システムパネル
+//		colMap Array<整数>		: エネミーが侵入できるかどうかの配列（0:侵入できる 1:侵入できない）
+//		shortPath Array<Point>	: 最短経路（位置）
+//		shortGuide Array<整数>	: 最短経路（移動方向）
 //=======================================================//
 function GamePlay(){
 	//this.twrPanel = new TowerPanel( );
