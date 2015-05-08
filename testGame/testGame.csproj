@@ -67,6 +67,7 @@
     <Content Include="program.js" />
     <Content Include="tower.js" />
     <Content Include="towerMgr.js" />
+    <Content Include="towerPanel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
