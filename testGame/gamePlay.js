@@ -29,7 +29,7 @@
 //		shortGuide Array<整数>	: 最短経路（移動方向）
 //=======================================================//
 function GamePlay(){
-	//this.twrPanel = new TowerPanel( );
+	this.twrPanel = new TowerPanel(this);
 	//this.psyPanel = new PsyPanel( );
 	//this.wavePanel = new WavePanel( );
 	//this.sysPanel = new SystemPanel( );  
@@ -89,6 +89,9 @@ function GamePlay(){
 		alert("初期マップに移動できる経路が無い");
 	}
 	this.shortGuide = pathToGuide(this.shortPath);
+
+	this.pathForecast = null;
+	this.pfPoint = this.map.mp.clone();
 }
 
 //=======================================================//
@@ -101,11 +104,21 @@ GamePlay.prototype.update = function(){
 	
 	//===DEBUG===//
 	if(mouse.leftCount == 1){
-		this.putTower("TEST1", this.map.mp.clone());
+		if(this.twrPanel.isSelected()){
+			if(this.judgePutTower(this.map.mp)){
+				this.putTower(this.twrPanel.getSelectTower(), this.map.mp.clone());
+			}			
+		}
 
 		if(mouse.onRect(550,400,100,50)){
 			this.eneMgr.next(this.shortPath, this.shortGuide);
 		}
+	}
+
+	//以下の動作は設置時のみ
+	if(this.pfPoint.x != this.map.mp.x || this.pfPoint.y != this.map.map.y){
+		this.pfPoint = this.map.mp.clone();
+		this.pathForecast = this.calcForeCast(this.colMap, this.pfPoint);
 	}
 	//===DEBUG===//
 
@@ -116,7 +129,7 @@ GamePlay.prototype.update = function(){
 	this.eneMgr.update();
 	this.twrMgr.update();
 
-	//this.twrPanel.update();
+	this.twrPanel.update();
 
 	//↓過去ドキュメント↓
 	//TowerPanel実装後に削除
@@ -144,10 +157,34 @@ GamePlay.prototype.draw = function(){
 	this.eneMgr.draw();
 	this.twrMgr.draw();
 
+	this.twrPanel.draw();
+
 	//========================DEBUG========================//
-	for(var e in this.shortPath){
-		drawRect(MapToScrX(this.shortPath[e].x*TIP_SIZE), MapToScrY(this.shortPath[e].y*TIP_SIZE), TIP_SIZE, TIP_SIZE, "rgba(200,120,0,1.0)");
+	//
+	// 設置時はthis.pathForecastを、非設置時はthis.shortPathを表示する。
+	//
+	var foreFlag = false;
+	if(this.twrPanel.isSelected()){
+		if(this.pathForecast != null){
+			foreFlag = true;
+		}
 	}
+
+	if(foreFlag){
+		for(var e in this.shortPath){
+			drawRect(MapToScrX(this.shortPath[e].x*TIP_SIZE), MapToScrY(this.shortPath[e].y*TIP_SIZE), TIP_SIZE, TIP_SIZE, "rgba(100,255,0,1.0)");
+		}
+		for(var e in this.pathForecast){
+			fillRect(MapToScrX(this.pathForecast[e].x*TIP_SIZE), MapToScrY(this.pathForecast[e].y*TIP_SIZE), TIP_SIZE, TIP_SIZE, "rgba(255,100,0,0.5)");
+		}
+	} else {
+		for(var e in this.shortPath){
+			drawRect(MapToScrX(this.shortPath[e].x*TIP_SIZE), MapToScrY(this.shortPath[e].y*TIP_SIZE), TIP_SIZE, TIP_SIZE, "rgba(100,255,0,1.0)");
+		}
+	}
+	//
+
+
 	if(this.map.mouseOnMap){
 		if(this.judgePutTower(this.map.mp)){
 			drawRect(MapToScrX(this.map.mp.x*TIP_SIZE), MapToScrY(this.map.mp.y*TIP_SIZE), TIP_SIZE, TIP_SIZE, "rgba(0,120,200,1.0)");
@@ -171,6 +208,10 @@ GamePlay.prototype.draw = function(){
 //		point Point : 判定する位置
 //=======================================================//
 GamePlay.prototype.judgePutTower = function(point){
+	if(point.x < 0 || point.x >= MAP_XNUM || point.y < 0 || point.y >= MAP_YNUM){
+		return false;
+	}
+
 	return (this.map.judgePutTower(point)
 		 && this.mychar.judgePutTower(point)
 		 && this.twrMgr.judgePutTower(point)
@@ -210,6 +251,21 @@ GamePlay.prototype.putTower = function(name, point){
 	this.updateCollisionMap(point,1);
 }
 
+//=======================================================//
+//　関数名 : calcForeCast
+//　概要 : pointの位置にタワーを置いた場合の、
+//　　　　 最短経路を計算します。
+//=======================================================//
+GamePlay.prototype.calcForeCast = function(colMap, point){
+	if(point.x < 0 || point.x >= MAP_XNUM || point.y < 0 || point.y >= MAP_YNUM){
+		return null;
+	}
+
+	var tempMap = copyArray(colMap);
+	tempMap[point.y][point.x] = 1;
+
+	return calcShortPath(this.eneMgr.spawnPoint[0], this.mychar.point, tempMap);
+}
 
 
 function calcShortPath(start, end, colAry){

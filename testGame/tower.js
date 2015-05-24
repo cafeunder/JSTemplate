@@ -3,10 +3,18 @@
 //=======================================================//
 //	グローバル変数宣言
 //=======================================================//
+var TowerName = [
+	"TEST1",
+	"TEST2",
+	"TEST3",
+	"TEST4",
+];
+
 var TowerDataTable = {	//タワーの情報テーブル
-	"TEST1" : new TowerData("TEMP3"),
-	"TEST2" : new TowerData("TEMP4"),
-	"TEST3" : new TowerData("TEMP5"),
+	"TEST1" : new TowerData("TEMP2"),
+	"TEST2" : new TowerData("TEMP3"),
+	"TEST3" : new TowerData("TEMP4"),
+	"TEST4" : new TowerData("TEMP"),
 };
 
 
