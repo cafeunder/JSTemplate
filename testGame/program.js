@@ -31,7 +31,6 @@ function timerFunc(){
 
 
 	fillRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,"rgb(0,0,0)");
-	gamePlay.draw();
 	drawText("fps:"+fps.FPS.toFixed(1),2,585,"rgba(255,255,255,1.0)","20px 'MS Gothic'");
 }
 
