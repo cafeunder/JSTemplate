@@ -5,7 +5,6 @@ var WINDOW_HEIGHT = 590;
 var fps = new Fps();
 var mouse = new Mouse();
 
-var gamePlay = new GamePlay();
 var ctx;
 
 onload = function(){
@@ -30,7 +29,6 @@ function timerFunc(){
 	fps.update();
 	mouse.update();
 
-	gamePlay.update();
 
 	fillRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,"rgb(0,0,0)");
 	gamePlay.draw();

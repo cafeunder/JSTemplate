@@ -52,22 +52,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="drawLibrary.js" />
-    <Content Include="enemy.js" />
-    <Content Include="enemyMgr.js" />
     <Content Include="fps.js" />
-    <Content Include="gamePlay.js" />
     <Content Include="imageMethod.js" />
     <Content Include="index.html" />
-    <Content Include="map.js" />
     <Content Include="mouse.js" />
-    <Content Include="mychar.js" />
     <Content Include="point.js" />
     <Content Include="queue.js" />
     <Content Include="stack.js" />
     <Content Include="program.js" />
-    <Content Include="tower.js" />
-    <Content Include="towerMgr.js" />
-    <Content Include="towerPanel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
