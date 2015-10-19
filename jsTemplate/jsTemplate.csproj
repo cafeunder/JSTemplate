@@ -55,6 +55,7 @@
     <Content Include="fps.js" />
     <Content Include="imageMethod.js" />
     <Content Include="index.html" />
+    <Content Include="keyboard.js" />
     <Content Include="mouse.js" />
     <Content Include="point.js" />
     <Content Include="queue.js" />

@@ -1,9 +1,10 @@
 ﻿"use strict";
 
-var WINDOW_WIDTH = 700;
-var WINDOW_HEIGHT = 590;
+var WINDOW_WIDTH;
+var WINDOW_HEIGHT;
 var fps = new Fps();
 var mouse = new Mouse();
+var keyboard = new Keyboard();
 
 var ctx;
 
@@ -21,17 +22,25 @@ onload = function(){
 	canvas.addEventListener('mousemove',mouseMove,true);
 	canvas.addEventListener('mousedown',mouseDown,true);
 	canvas.addEventListener('mouseup',mouseUp,true);
+	document.addEventListener('keydown',keyDown,true);
+	document.addEventListener('keyup',keyUp,true);
 
 	ctx.msImageSmoothingEnabled = false;
+
+	WINDOW_WIDTH = canvas.width;
+	WINDOW_HEIGHT = canvas.height;
 };
 
 function timerFunc(){
 	fps.update();
 	mouse.update();
-
+	keyboard.update();
 
 	fillRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT,"rgb(0,0,0)");
-	drawText("fps:"+fps.FPS.toFixed(1),2,585,"rgba(255,255,255,1.0)","20px 'MS Gothic'");
+	if(keyboard.checkKey(KEY_F) == 1){
+		fps.setDrawing(!fps.isDrawing());
+	}
+	fps.draw(2,WINDOW_HEIGHT-15);
 }
 
 function copyArray(arr){
