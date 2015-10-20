@@ -6,14 +6,7 @@ function ImageData(path,image){
 }
 
 var ImageArray = {
-	"mychar" : new ImageData("./img/temp5.png",null),
-	"TEMP4" : new ImageData("./img/temp4.png",null),
-	"TEMP3" : new ImageData("./img/temp3.png",null),
-	"TEMP2" : new ImageData("./img/temp2.png",null),
 	"TEMP" : new ImageData("./img/temp.png",null),
-	"MASU" : new ImageData("./img/masu.png",null),
-	"FIRE" : new ImageData("./img/fire.png",null),
-	"MARU" : new ImageData("./img/maru.png",null),
 };
 
 function loadImage(){
